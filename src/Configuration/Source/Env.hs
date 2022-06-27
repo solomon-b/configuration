@@ -18,7 +18,7 @@ import Prelude (Applicative (..), IO, Maybe (..), Monad (..), Read, ($), (.))
 toEnvParser :: (AllB Read b, TraversableB b, ConstraintsB b) => b Setting -> IO (b Maybe)
 toEnvParser = btraverseC @Read $ \Setting {..} ->
   case optSource of
-    Source _ (Just (Env var)) _ -> readEnv var
+    Source _ (Just (Env var)) _ _ -> readEnv var
     _ -> pure Nothing
 
 readEnv :: Read a => Text -> IO (Maybe a)

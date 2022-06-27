@@ -7,7 +7,7 @@ import Data.Aeson qualified as A
 import Data.Coerce (coerce)
 import Data.Functor.Compose (Compose (..))
 import Data.Text (Text)
-import Prelude (Bool, Maybe, (.))
+import Prelude (Bool, Maybe, (.), IO)
 
 --------------------------------------------------------------------------------
 
@@ -34,12 +34,18 @@ newtype Env = Env {envVar :: Text}
 envVarL :: Lens' Env Text
 envVarL f (Env var) = f var <&> Env
 
+newtype Custom a = Custom {runCustom :: IO a}
+
+customL :: Lens' (Custom a) (IO a)
+customL f (Custom action) = f action <&> Custom
+
 --------------------------------------------------------------------------------
 
 data Source a = Source
   { srcJson :: Maybe (JSONFile a),
     srcEnv :: Maybe Env,
-    srcArg :: Maybe Arg
+    srcArg :: Maybe Arg,
+    srcCustom :: Maybe (Custom a)
   }
 
 srcJsonL :: Lens' (Source a) (Maybe (JSONFile a))
@@ -56,13 +62,13 @@ srcArgL f src@Source {..} =
 
 --------------------------------------------------------------------------------
 
--- |'Setting a' contains all the information required to produce an
--- @a@.
--- 
--- - Required or Optional
--- - Default Value
--- - Source (args, env, lux, custom io action? launchdarkly?)
--- - Documentation
+-- | 'Setting a' contains all the information required to produce an
+--  @a@.
+--
+--  - Required or Optional
+--  - Default Value
+--  - Source (args, env, lux, custom io action? launchdarkly?)
+--  - Documentation
 data Setting a = Setting
   { optSource :: Source a,
     optDefault :: Maybe a,

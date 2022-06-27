@@ -26,7 +26,7 @@ import Prelude (Applicative (..), Functor (..), IO, Maybe (..), Read, Semigroup 
 buildParsers :: (AllB Read b, ConstraintsB b) => b Setting -> b (Compose Maybe (Compose Opt.Parser Maybe))
 buildParsers = bmapC @Read $ \Setting {..} ->
   case optSource of
-    Source _ _ (Just Arg {..}) ->
+    Source _ _ (Just Arg {..}) _ ->
       Compose $
         pure $
           Compose $
