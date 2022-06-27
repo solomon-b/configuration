@@ -15,7 +15,8 @@ import Prelude (Bool, Maybe, (.))
 data Arg = Arg
   { argCommand :: Command,
     argFlag :: Text,
-    argMetaVar :: Text
+    argMetaVar :: Text,
+    argRequired :: Bool
   }
 
 -- | Opt Parse Applicative command choice.

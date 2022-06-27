@@ -58,7 +58,8 @@ options =
                 (Just $ Arg
                   { argCommand = Main,
                     argFlag = "host",
-                    argMetaVar = "<HOST>"
+                    argMetaVar = "<HOST>",
+                    argRequired = True
                   }),
             optRequired = True,
             optDefault = Nothing,
@@ -70,7 +71,12 @@ options =
               Source
                 (Just $ JSONFile $ findField $ key "num_threads" . _Number . to round)
                 (Just $ Env "NUM_THREADS")
-                Nothing,
+                (Just $ Arg
+                  { argCommand = Main,
+                    argFlag = "threads",
+                    argMetaVar = "<THREADS>",
+                    argRequired = False
+                  }),
             optRequired = True,
             optDefault = Nothing,
             optDescription = "Number of threads"
