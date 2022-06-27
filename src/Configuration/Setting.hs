@@ -61,12 +61,10 @@ srcArgL f src@Source {..} =
 -- 
 -- - Required or Optional
 -- - Default Value
--- - Source (args, env, lux, launchdarkly?)
--- - Destination (oss, pro, multitenant)
+-- - Source (args, env, lux, custom io action? launchdarkly?)
 -- - Documentation
 data Setting a = Setting
   { optSource :: Source a,
-    optRequired :: Bool,
     optDefault :: Maybe a,
     optDescription :: Text
   }
@@ -74,10 +72,6 @@ data Setting a = Setting
 optSourceL :: Lens' (Setting a) (Source a)
 optSourceL f opts@Setting {optSource} =
   f optSource <&> \optSource' -> opts {optSource = optSource'}
-
-optRequiredL :: Lens' (Setting a) Bool
-optRequiredL f opts@Setting {optRequired} =
-  f optRequired <&> \optRequired' -> opts {optRequired = optRequired'}
 
 optDefaultL :: Lens' (Setting a) (Maybe a)
 optDefaultL f opts@Setting {optDefault} =

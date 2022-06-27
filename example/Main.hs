@@ -61,7 +61,6 @@ options =
                     argMetaVar = "<HOST>",
                     argRequired = True
                   }),
-            optRequired = True,
             optDefault = Nothing,
             optDescription = "Host on which graphql-engine will listen"
           },
@@ -77,7 +76,6 @@ options =
                     argMetaVar = "<THREADS>",
                     argRequired = False
                   }),
-            optRequired = True,
             optDefault = Nothing,
             optDescription = "Number of threads"
           },
@@ -88,7 +86,6 @@ options =
                 (Just $ JSONFile $ findField $ key "verbosity" . _Number . to round)
                 (Just $ Env "VERBOSITY")
                 Nothing,
-            optRequired = True,
             optDefault = Just 1,
             optDescription = "Level of verbosity"
           }
